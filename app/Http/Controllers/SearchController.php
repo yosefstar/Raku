@@ -16,6 +16,7 @@ class SearchController extends Controller
     
         $response = $client->execute('IchibaItemSearch', [
             'keyword' => 'うどん'
+        //  'itemCode' => 'muen-genen:10000176'
         ]);
     
         if ($response->isOk()) {
