@@ -28,9 +28,15 @@ class HomeController extends Controller
         $client = new RakutenRws_Client();
         $client->setApplicationId('1006140351693850398');
     
+        $item = Item::first(); // 例として最初のアイテムを取得する
+
+        if (!$item) {
+            $errorMessage = 'Error: Item not found';
+            return view('search', compact('errorMessage'));
+        }
+    
         $response = $client->execute('IchibaItemSearch', [
-            'keyword' => 'うどん'
-        //  'itemCode' => 'muen-genen:10000176'
+            'itemCode' => $item->itemCode
         ]);
     
         if ($response->isOk()) {
