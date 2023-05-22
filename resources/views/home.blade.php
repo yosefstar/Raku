@@ -22,7 +22,6 @@
             <li>{{ $itemCode }}</li> <!-- itemCodeを表示 -->
         @endforeach
     </ul>
-
     
     
         </div>

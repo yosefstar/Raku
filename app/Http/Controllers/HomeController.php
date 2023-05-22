@@ -25,24 +25,24 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $items = Item::pluck('itemCode'); // item_listテーブルのitemCodeを取得
-
-        return view('home', compact('items'));
-    }
-
-    public function search($itemCode)
-    {
         $client = new RakutenRws_Client();
         $client->setApplicationId('1006140351693850398');
-
-        // 楽天APIで商品を検索
+    
         $response = $client->execute('IchibaItemSearch', [
-            'itemCode' => $itemCode,
+            'keyword' => 'うどん'
+        //  'itemCode' => 'muen-genen:10000176'
         ]);
-
-        $items = $response->getData()['Items'];
-
-        return view('search', compact('items'));
+    
+        if ($response->isOk()) {
+            $count = $response['count'];
+            $items = $response['Items'];
+    
+            return view('search', compact('count', 'items'));
+        } else {
+            $errorMessage = 'Error: ' . $response->getMessage();
+            return view('search');
+        }
     }
+
 
 }
