@@ -30,3 +30,5 @@ Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 Route::post('/save-item-code', [SearchController::class, 'saveItemCode'])->name('saveItemCode');
 
 Route::get('/search/{itemCode}', [ItemController::class, 'search']);
+
+Route::post('/saveItem', 'HomeController@saveItem')->name('saveItem');

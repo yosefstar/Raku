@@ -12,7 +12,7 @@ class SearchController extends Controller
     public function index()
     {
         $client = new RakutenRws_Client();
-        $client->setApplicationId('1006140351693850398');
+        $client->setApplicationId('1070684823768079421');
     
         $response = $client->execute('IchibaItemSearch', [
             'keyword' => 'うどん'
