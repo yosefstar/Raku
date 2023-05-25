@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,14 +22,12 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::post('/save-item-code', 'SearchController@saveItemCode')->name('saveItemCode');
 Route::get('/search', [SearchController::class, 'index'])->name('search');
-Route::get('/search', [SearchController::class, 'index'])->name('search.index');
-
-
-
 Route::post('/save-item-code', [SearchController::class, 'saveItemCode'])->name('saveItemCode');
-
 Route::get('/search/{itemCode}', [ItemController::class, 'search']);
+Route::post('/saveItem', [HomeController::class, 'saveItem'])->name('saveItem');
+Route::post('/want-item', [HomeController::class, 'wantItem'])->name('wantItem');
+Route::get('/ranking', [HomeController::class, 'showRanking'])->name('showRanking');
 
-Route::post('/saveItem', 'HomeController@saveItem')->name('saveItem');
+
+

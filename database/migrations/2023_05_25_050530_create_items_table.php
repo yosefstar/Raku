@@ -13,19 +13,20 @@ return new class extends Migration
     {
         Schema::create('item_list', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('itemCode');
+            $table->string('imageUrl')->nullable();
+            $table->string('itemName')->nullable();
+            $table->integer('itemPrice')->nullable();
+            $table->string('itemUrl')->nullable();
+            $table->string('itemCode')->unique();
             $table->timestamps();
         });
     }
-    
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('item_list');
+        Schema::dropIfExists('items');
     }
 };
-
-

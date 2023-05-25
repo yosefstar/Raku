@@ -16,12 +16,17 @@ class CreateWantListTable extends Migration
         Schema::create('want_list', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->string('imageUrl');
+            $table->string('itemName');
+            $table->decimal('itemPrice', 8, 2);
+            $table->string('itemUrl');
             $table->string('itemCode');
             $table->timestamps();
-        
+
+            // 外部キー制約
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('itemCode')->references('itemCode')->on('item_list')->onDelete('cascade');
-        });               
+        });
     }
 
     /**

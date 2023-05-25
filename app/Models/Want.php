@@ -7,13 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Want extends Model
 {
     protected $table = 'want_list';
-    protected $primaryKey = null;
     public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
         'user_id',
-        'item_code',
+        'imageUrl',
+        'itemName',
+        'itemPrice',
+        'itemUrl',
+        'itemCode' // 'itemCode' を追加
     ];
 
     public function user()
@@ -23,7 +26,8 @@ class Want extends Model
 
     public function item()
     {
-        return $this->belongsTo(Item::class, 'item_code', 'itemCode');
+        return $this->belongsTo(Item::class, 'itemCode', 'itemCode'); // 'item_code' を 'itemCode' に修正
     }
 }
+
 

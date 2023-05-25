@@ -12,25 +12,29 @@
     <h2>検索結果</h2>
     <p>合計 {{ $count }} 件の商品が見つかりました。</p>
     <ul>
-        @foreach($items as $item)
-        <li>
-            {{ $item['Item']['itemName'] }}
-            @if(isset($item['Item']['mediumImageUrls']))
-                <ul>
-                    @foreach($item['Item']['mediumImageUrls'] as $imageUrl)
-                        <li><img src="{{ $imageUrl['imageUrl'] }}" alt="商品画像"></li>
-                    @endforeach
-                </ul>
-            @endif
-            <p>itemCode: {{ $item['Item']['itemCode'] }}</p> <!-- 追加 -->
+    @foreach($items as $item)
+    <div>
+        <!-- アイテム情報表示 -->
+        <img src="{{ $item['Item']['mediumImageUrls'][0]['imageUrl'] }}" alt="商品画像">
+        <p>商品名: {{ $item['Item']['itemName'] }}</p>
+        <p>価格: {{ $item['Item']['itemPrice'] }}</p>
+        <a href="{{ $item['Item']['itemUrl'] }}">商品ページへ</a>
 
-            <form action="{{ route('saveItemCode') }}" method="POST"> <!-- 追加 -->
-                        @csrf <!-- 追加 -->
-                        <input type="hidden" name="itemCode" value="{{ $item['Item']['itemCode'] }}"> <!-- 追加 -->
-                        <button type="submit">アイテムコードを保存</button> <!-- 追加 -->
-            </form> <!-- 追加 -->
-        </li>
-        @endforeach
+        <form action="{{ route('saveItemCode') }}" method="POST">
+            @csrf
+            <input type="hidden" name="imageUrl" value="{{ $item['Item']['mediumImageUrls'][0]['imageUrl'] }}">
+            <input type="hidden" name="itemName" value="{{ $item['Item']['itemName'] }}">
+            <input type="hidden" name="itemPrice" value="{{ $item['Item']['itemPrice'] }}">
+            <input type="hidden" name="itemUrl" value="{{ $item['Item']['itemUrl'] }}">
+            <input type="hidden" name="itemCode" value="{{ $item['Item']['itemCode'] }}">
+            <button type="submit">アイテムを追加</button>
+        </form>
+    </div>
+@endforeach
+
+
+
+
     </ul>
     @endif
 

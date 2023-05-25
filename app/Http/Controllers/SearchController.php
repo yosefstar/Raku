@@ -4,19 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use App\Models\ItemList;
+use App\Models\Item;
 use RakutenRws_Client;
 
 class SearchController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $client = new RakutenRws_Client();
         $client->setApplicationId('1070684823768079421');
     
+        $keyword = $request->input('keyword'); // フォームから入力されたキーワードを取得
+    
         $response = $client->execute('IchibaItemSearch', [
-            'keyword' => 'うどん'
-        //  'itemCode' => 'muen-genen:10000176'
+            'keyword' => $keyword, // 取得したキーワードを検索に利用
+            //  'itemCode' => 'muen-genen:10000176'
         ]);
     
         if ($response->isOk()) {
@@ -32,13 +34,32 @@ class SearchController extends Controller
 
     public function saveItemCode(Request $request)
     {
+        if (!auth()->check()) {
+            return redirect()->back()->with('error', 'ログインしてください');
+        }
+    
+        $user_id = auth()->user()->id;
+        $imageUrl = $request->input('imageUrl');
+        $itemName = $request->input('itemName');
+        $itemPrice = $request->input('itemPrice');
+        $itemUrl = $request->input('itemUrl');
         $itemCode = $request->input('itemCode');
+    
 
-        ItemList::create(['itemCode' => $itemCode]);
-
+    
+        // 保存処理
+        Item::create([
+            'user_id' => $user_id,
+            'imageUrl' => $imageUrl,
+            'itemName' => $itemName,
+            'itemPrice' => $itemPrice,
+            'itemUrl' => $itemUrl,
+            'itemCode' => $itemCode
+        ]);
+    
         // 保存成功時の処理
-
-        return redirect()->back()->with('success', 'アイテムコードを保存しました');
+        return redirect()->back()->with('success', 'アイテムを追加しました');
     }
+    
 }
 
