@@ -8,7 +8,7 @@ use App\Models\Item;
 use App\Models\Have;
 use Illuminate\Support\Facades\DB;
 
-class HomeController extends Controller
+class WelcomeController extends Controller
 {
     /**
      * Create a new controller instance.

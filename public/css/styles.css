@@ -1,0 +1,118 @@
+.item-box {
+  width: 251px;
+  height: 450px; /* コンテナの高さの15%に設定 */
+  box-sizing: border-box;
+  border: none; /* 線を消す */
+  margin-bottom: 25px;
+  margin-top: 25px;
+  display: inline-block;
+  vertical-align: top;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 影を追加 */
+  margin-right: 25px;
+  margin-left: 25px;
+}
+
+
+
+.item-box-main p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+  
+
+
+
+  
+  .item-box .item-image {
+    text-align: center;
+    padding: 10px 10px 10px 10px;
+    width: 250px; /* 幅を100%に設定 */
+    height: 250px; /* 高さを100%に設定 */
+    object-fit: contain; /* 画像を保持したまま要素に収まるように表示 */
+  }
+
+  .item-image img {
+    width: 100%; /* 画像の幅を100%に設定 */
+    height: auto; /* 高さは自動調整されるように設定 */
+  }
+  
+  .item-box-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 200px;
+    padding: 10px;
+    background-color: white; /* 背景色を真っ白に設定 */
+  }
+  
+  .item-box-main p {
+    margin: 10px 5px; /* 上下に10pxのマージンを設定 */
+  }
+
+  .button-arrange {
+    display: flex;
+    justify-content: space-between;
+  }
+  .wantbutton,
+.havebutton {
+  display: inline-block;
+  padding: 5px 10px;
+  margin-right: 5px; /* ボタン間の横の余白を追加 */
+  border: none;
+  border-radius: 8px;
+  background-color: blue;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.wantbutton.custom-style-want,
+.havebutton.custom-style-have {
+  display: inline-block;
+  padding: 5px 10px;
+  margin-right: 5px; /* ボタン間の横の余白を追加 */
+  border: none;
+  border-radius: 8px;
+  background-color: green;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+
+.wantbutton:last-child,
+.havebutton:last-child {
+  margin-right: 0; /* 最後のボタンの右側の余白を削除 */
+}
+
+.wantbutton:hover,
+.havebutton:hover {
+  background-color: lightskyblue;
+}
+
+.wantbutton.custom-style-want:hover,
+.havebutton.custom-style-have:hover{
+  background-color: lightgreen;
+}
+
+.search-box {
+  padding: 32px;
+}
+
+.add-item a,
+.nav-ranking a {
+    text-decoration: none; /* 下線を削除 */
+    color: black; /* リンクの色を黒に変更 */
+}

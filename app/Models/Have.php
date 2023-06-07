@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Want extends Model
+class Have extends Model
 {
-    protected $table = 'want_list';
+    protected $table = 'have_list';
     public $incrementing = false;
     protected $keyType = 'string';
 
@@ -17,7 +17,7 @@ class Want extends Model
         'itemPrice',
         'itemUrl',
         'itemCode', // 'itemCode' を追加
-        'want_status'
+        'have_status'
     ];
 
     public function user()
