@@ -19,7 +19,8 @@ class Item extends Model
         'itemPrice',
         'itemUrl',
         'itemCode',
-        'want_status'
+        'want_status',
+        'genreName'
     ];
 
     public function wantList()

@@ -39,6 +39,7 @@ class SearchController extends Controller
         }
     }
 
+
     public function saveItemCode(Request $request)
     {
         if (!auth()->check()) {
@@ -51,7 +52,8 @@ class SearchController extends Controller
         $itemPrice = $request->input('itemPrice');
         $itemUrl = $request->input('itemUrl');
         $itemCode = $request->input('itemCode');
-        $want_status = $request->input('itemStatus');
+        $genreName = $request->input('genreName');
+
 
         // 保存処理
         $item = Item::create([
@@ -61,6 +63,7 @@ class SearchController extends Controller
             'itemPrice' => $itemPrice,
             'itemUrl' => $itemUrl,
             'itemCode' => $itemCode,
+            'genreName' => $genreName,
             'want_status' => true,
         ]);
 

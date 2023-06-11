@@ -12,6 +12,9 @@
   margin-left: 25px;
 }
 
+.nav-item-register{
+  margin-left: 25px;
+}
 
 
 .item-box-main p {
@@ -52,7 +55,7 @@
   }
   
   .item-box-main p {
-    margin: 10px 5px; /* 上下に10pxのマージンを設定 */
+    margin: 5px 5px; /* 上下に10pxのマージンを設定 */
   }
 
   .button-arrange {

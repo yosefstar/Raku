@@ -46,7 +46,7 @@
                     @if($itemData)
                     <div class="item-box-main">
                         <p>持っている数: {{ $item->total }}</p>
-                        <a href="{{ $item->itemUrl }}">
+                        <a href="{{ $item->itemUrl }}" target="_blank">
                             <p>商品名: {{ $itemData->itemName }}</p>
                         </a>
                         <p>価格: {{ number_format($itemData->itemPrice) }}円</p>

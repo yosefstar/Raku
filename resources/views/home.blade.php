@@ -3,9 +3,13 @@
 @section('content')
 <div class="container">
 
-    @if (isset($errorMessage))
-    <p>{{ $errorMessage }}</p>
-    @endif
+    <h1>Categories</h1>
+    <ul>
+        @foreach ($categories as $category)
+        <li>{{ $category }}</li>
+        @endforeach
+    </ul>
+
     @foreach($items as $item)
     <div class="item-box">
         <div class="item-image-box">
@@ -14,9 +18,10 @@
 
         </div>
         <div class="item-box-main">
-            <a href="{{ $item->itemUrl }}">
+            <a href="{{ $item->itemUrl }}" target="_blank">
                 <p class="item-name">商品名: {{ $item->itemName }}</p>
             </a>
+            <p>ジャンル:{{ $item->genreName }}</p>
             <p>価格: {{ number_format(intval($item->itemPrice)) }}円</p>
 
 

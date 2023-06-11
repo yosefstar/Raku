@@ -3,6 +3,7 @@
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\SearchGenreController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,6 +30,10 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 // Route::get('/search', [SearchController::class, 'index'])->name('search');
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 
+Route::get('/show-categories', [HomeController::class, 'showCategories'])->name('show.categories');
+
+Route::get('/search-genre', [SearchGenreController::class, 'index'])->name('searchGenre');
+
 
 
 Route::post('/save-itemcode', [SearchController::class, 'saveItemCode'])->name('saveItemCode');
@@ -53,3 +58,5 @@ Route::get('/items', [HomeController::class, 'getItems'])->name('getItems');
 Route::post('/update-want-status', [HomeController::class, 'updateWantStatus'])->name('updateWantStatus');
 
 Route::post('/check_duplicate_and_update_status', [HomeController::class, 'checkDuplicateAndUpdateStatus']);
+
+Route::get('/show-items-by-genre', [HomeController::class, 'showItemsByGenre'])->name('showItemsByGenre');

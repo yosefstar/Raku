@@ -50,7 +50,7 @@
                             @endif
 
                             @if (Route::has('register'))
-                            <div class="nav-item">
+                            <div class="nav-item-register">
                                 <a class="nav-link" href="{{ route('register') }}">{{ __('新規登録') }}</a>
                             </div>
                             @endif

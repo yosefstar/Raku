@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Api\WantListController;
+use App\Http\Controllers\Api\SearchGenreController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Route::post('/save-item-code', [SearchController::class, 'saveItemCode'])->name('saveItemCode');
 
 Route::post('/update-want-status', [WantListController::class, 'updateWantStatus'])->name('api.update_want_status');
+
+Route::get('/search-genre', [SearchGenreController::class, 'index'])->name('searchGenre');

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Want;
 use App\Models\Item;
 use App\Models\Have;
+use App\Models\Genre;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -20,11 +21,7 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
+
     public function index()
     {
         $user_id = auth()->user()->id;
@@ -45,8 +42,56 @@ class HomeController extends Controller
         foreach ($myHaveLists as $myHaveList) {
             array_push($haveLists, $myHaveList["itemCode"]);
         }
+        $test = 'test';
 
-        return view('home', compact('items', 'itemLists', 'wantLists', 'haveLists', 'myItemLists'));
+        return view('home', compact('items', 'itemLists', 'wantLists', 'haveLists', 'myItemLists', 'test'));
+    }
+
+    public function Categories(Request $request)
+    {
+        $categories = [
+            'レディースファッション',
+            'メンズファッション',
+            'インナー・下着・ナイトウェア',
+            'バッグ・小物・ブランド雑貨',
+            '靴',
+            '腕時計',
+            'ジュエリー・アクセサリー',
+            'キッズ・ベビー・マタニティ',
+            'おもちゃ',
+            'スポーツ・アウトドア',
+            '家電',
+            'TV・オーディオ・カメラ',
+            'パソコン・周辺機器',
+            'スマートフォン・タブレット',
+            '光回線・モバイル通信',
+            '食品',
+            'スイーツ・お菓子',
+            '水・ソフトドリンク',
+            'ビール・洋酒',
+            '日本酒・焼酎',
+            'インテリア・寝具・収納',
+            '日用品雑貨・文房具・手芸',
+            'キッチン用品・食器・調理器具',
+            '本・雑誌・コミック',
+            'CD・DVD',
+            'テレビゲーム',
+            'ホビー',
+            '楽器・音響機器',
+            '車・バイク',
+            '車用品・バイク用品',
+            '美容・コスメ・香水',
+            'ダイエット・健康',
+            '医薬品・コンタクト・介護',
+            'ペット・ペットグッズ',
+            '花・ガーデン・DIY',
+            'サービス・リフォーム',
+            '住宅・不動産',
+            'カタログギフト・チケット',
+            '百貨店・総合通販・ギフト',
+        ];
+
+        return view('home')->with('categories', $categories);
     }
 
 
@@ -82,6 +127,7 @@ class HomeController extends Controller
 
         return redirect()->back()->with('success', 'アイテムを追加しました');
     }
+
 
 
     public function haveItem(Request $request)
@@ -215,5 +261,25 @@ class HomeController extends Controller
             ->get();
 
         return view('home', compact('items'));
+    }
+
+    public function showItemsByGenre(Request $request)
+    {
+        // ジャンルの一覧を取得
+        $genres = Genre::all();
+
+        // 選択されたジャンルIDを取得
+        $selectedGenreId = $request->input('genre');
+
+        // 選択されたジャンルがある場合はそのジャンルに紐づく商品リストを取得
+        if ($selectedGenreId) {
+            $genre = Genre::findOrFail($selectedGenreId);
+            $itemsByGenre = $genre->items;
+        } else {
+            $itemsByGenre = []; // デフォルトは空の商品リスト
+        }
+
+        // ビューに変数を渡して表示
+        return view('home', compact('genres', 'selectedGenreId', 'itemsByGenre'));
     }
 }
