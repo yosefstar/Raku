@@ -30,7 +30,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 // Route::get('/search', [SearchController::class, 'index'])->name('search');
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 
-Route::get('/show-categories', [HomeController::class, 'showCategories'])->name('show.categories');
+Route::get('/show-categories', [HomeController::class, 'Categories'])->name('show.categories');
 
 Route::get('/search-genre', [SearchGenreController::class, 'index'])->name('searchGenre');
 

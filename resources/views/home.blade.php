@@ -2,13 +2,14 @@
 
 @section('content')
 <div class="container">
-
+    <!-- #この部分です。 -->
     <h1>Categories</h1>
     <ul>
         @foreach ($categories as $category)
         <li>{{ $category }}</li>
         @endforeach
     </ul>
+    <!-- #この部分です。 -->
 
     @foreach($items as $item)
     <div class="item-box">
