@@ -45,8 +45,9 @@ Route::post('/saveItem', [HomeController::class, 'saveItem'])->name('saveItem');
 // web.php もしくは routes.php などのルート定義ファイルで定義する
 Route::post('/want-item', [HomeController::class, 'wantItem'])->name('wantItem');
 
-
 Route::post('/have-item', [HomeController::class, 'haveItem'])->name('haveItem');
+
+Route::post('/unlike-item', [HomeController::class, 'unlikeItem'])->name('unlikeItem');
 
 Route::get('/ranking', [HomeController::class, 'showRanking'])->name('showRanking');
 

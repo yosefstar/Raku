@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Want;
 use App\Models\Item;
 use App\Models\Have;
+use App\Models\Unlike;
 use App\Models\Genre;
 use Illuminate\Support\Facades\DB;
 
@@ -22,11 +23,17 @@ class HomeController extends Controller
     }
 
 
-    public function index()
+    public function index(Request $request)
     {
         $user_id = auth()->user()->id;
         // $items = Item::with('wantList')->get();
-        $items = Item::all();
+        $items = Item::whereNotExists(function ($query) use ($user_id) {
+            $query->select(DB::raw(1))
+                ->from('unlike_list')
+                ->whereColumn('unlike_list.itemCode', 'item_list.itemCode')
+                ->where('unlike_list.user_id', $user_id);
+        })
+            ->get();
         $myItemLists = Item::where('user_id', $user_id)->where('want_status', 1)->get();
         $itemLists = [];
         foreach ($myItemLists as $myItemList) {
@@ -42,13 +49,14 @@ class HomeController extends Controller
         foreach ($myHaveLists as $myHaveList) {
             array_push($haveLists, $myHaveList["itemCode"]);
         }
-        $test = 'test';
+        $myUnlikeLists = Unlike::where('user_id', $user_id)->where('unlike_status', 1)->get();
+        $unlikeLists = [];
+        foreach ($myUnlikeLists as $myUnlikeList) {
+            array_push($unlikeLists, $myUnlikeList["itemCode"]);
+        }
 
-        return view('home', compact('items', 'itemLists', 'wantLists', 'haveLists', 'myItemLists', 'test'));
-    }
+        $selectedCategory = $request->input('category');
 
-    public function Categories(Request $request)
-    {
         $categories = [
             'レディースファッション',
             'メンズファッション',
@@ -91,9 +99,9 @@ class HomeController extends Controller
             '百貨店・総合通販・ギフト',
         ];
 
-        return view('home')->with('categories', $categories);
-    }
 
+        return view('home', compact('items', 'itemLists', 'wantLists', 'haveLists', 'myItemLists', 'unlikeLists', 'categories', 'selectedCategory'));
+    }
 
 
     public function wantItem(Request $request)
@@ -104,6 +112,7 @@ class HomeController extends Controller
         $itemName = $request->input('itemName');
         $itemPrice = $request->input('itemPrice');
         $itemUrl = $request->input('itemUrl');
+        $genreName = $request->input('genreName');
 
         // 重複のチェック
         $existingItem = Want::where('user_id', $user_id)->where('itemCode', $itemCode)->first();
@@ -121,6 +130,7 @@ class HomeController extends Controller
                 'itemPrice' => $itemPrice,
                 'itemUrl' => $itemUrl,
                 'itemCode' => $itemCode,
+                'genreName' => $genreName,
                 'want_status' => true, // もしくは 1
             ]);
         }
@@ -129,11 +139,15 @@ class HomeController extends Controller
     }
 
 
-
     public function haveItem(Request $request)
     {
         $user_id = auth()->user()->id;
         $itemCode = $request->input('itemCode');
+        $imageUrl = $request->input('imageUrl');
+        $itemName = $request->input('itemName');
+        $itemPrice = $request->input('itemPrice');
+        $itemUrl = $request->input('itemUrl');
+        $genreName = $request->input('genreName');
 
         // 重複のチェック
         $existingItem = Have::where('user_id', $user_id)->where('itemCode', $itemCode)->first();
@@ -142,10 +156,6 @@ class HomeController extends Controller
             $existingItem->have_status = !$existingItem->have_status;
             $existingItem->save();
         } else {
-            $imageUrl = $request->input('imageUrl');
-            $itemName = $request->input('itemName');
-            $itemPrice = $request->input('itemPrice');
-            $itemUrl = $request->input('itemUrl');
 
             Have::create([
                 'user_id' => $user_id,
@@ -154,12 +164,39 @@ class HomeController extends Controller
                 'itemPrice' => $itemPrice,
                 'itemUrl' => $itemUrl,
                 'itemCode' => $itemCode,
+                'genreName' => $genreName,
                 'have_status' => true, // もしくは 1
             ]);
         }
 
         return redirect()->back()->with('success', 'アイテムを追加しました');
     }
+
+    public function unlikeItem(Request $request)
+    {
+        $user_id = auth()->user()->id;
+        $itemCode = $request->input('itemCode');
+        $imageUrl = $request->input('imageUrl');
+        $itemName = $request->input('itemName');
+        $itemPrice = $request->input('itemPrice');
+        $itemUrl = $request->input('itemUrl');
+        $genreName = $request->input('genreName');
+
+        Unlike::create([
+            'user_id' => $user_id,
+            'imageUrl' => $imageUrl,
+            'itemName' => $itemName,
+            'itemPrice' => $itemPrice,
+            'itemUrl' => $itemUrl,
+            'itemCode' => $itemCode,
+            'genreName' => $genreName,
+            'unlike_status' => true, // もしくは 1
+        ]);
+
+        return redirect()->back()->with('success', 'アイテムを追加しました');
+    }
+
+
 
     public function updateWantStatus()
     {

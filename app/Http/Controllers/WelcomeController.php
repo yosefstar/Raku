@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Want;
 use App\Models\Item;
 use App\Models\Have;
+use App\Models\Unlike;
+use App\Models\Genre;
 use Illuminate\Support\Facades\DB;
 
 class WelcomeController extends Controller
@@ -20,16 +22,18 @@ class WelcomeController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
+
+    public function index(Request $request)
     {
         $user_id = auth()->user()->id;
         // $items = Item::with('wantList')->get();
-        $items = Item::all();
+        $items = Item::whereNotExists(function ($query) use ($user_id) {
+            $query->select(DB::raw(1))
+                ->from('unlike_list')
+                ->whereColumn('unlike_list.itemCode', 'item_list.itemCode')
+                ->where('unlike_list.user_id', $user_id);
+        })
+            ->get();
         $myItemLists = Item::where('user_id', $user_id)->where('want_status', 1)->get();
         $itemLists = [];
         foreach ($myItemLists as $myItemList) {
@@ -45,10 +49,59 @@ class WelcomeController extends Controller
         foreach ($myHaveLists as $myHaveList) {
             array_push($haveLists, $myHaveList["itemCode"]);
         }
+        $myUnlikeLists = Unlike::where('user_id', $user_id)->where('unlike_status', 1)->get();
+        $unlikeLists = [];
+        foreach ($myUnlikeLists as $myUnlikeList) {
+            array_push($unlikeLists, $myUnlikeList["itemCode"]);
+        }
 
-        return view('home', compact('items', 'itemLists', 'wantLists', 'haveLists', 'myItemLists'));
+        $selectedCategory = $request->input('category');
+
+        $categories = [
+            'レディースファッション',
+            'メンズファッション',
+            'インナー・下着・ナイトウェア',
+            'バッグ・小物・ブランド雑貨',
+            '靴',
+            '腕時計',
+            'ジュエリー・アクセサリー',
+            'キッズ・ベビー・マタニティ',
+            'おもちゃ',
+            'スポーツ・アウトドア',
+            '家電',
+            'TV・オーディオ・カメラ',
+            'パソコン・周辺機器',
+            'スマートフォン・タブレット',
+            '光回線・モバイル通信',
+            '食品',
+            'スイーツ・お菓子',
+            '水・ソフトドリンク',
+            'ビール・洋酒',
+            '日本酒・焼酎',
+            'インテリア・寝具・収納',
+            '日用品雑貨・文房具・手芸',
+            'キッチン用品・食器・調理器具',
+            '本・雑誌・コミック',
+            'CD・DVD',
+            'テレビゲーム',
+            'ホビー',
+            '楽器・音響機器',
+            '車・バイク',
+            '車用品・バイク用品',
+            '美容・コスメ・香水',
+            'ダイエット・健康',
+            '医薬品・コンタクト・介護',
+            'ペット・ペットグッズ',
+            '花・ガーデン・DIY',
+            'サービス・リフォーム',
+            '住宅・不動産',
+            'カタログギフト・チケット',
+            '百貨店・総合通販・ギフト',
+        ];
+
+
+        return view('home', compact('items', 'itemLists', 'wantLists', 'haveLists', 'myItemLists', 'unlikeLists', 'categories', 'selectedCategory'));
     }
-
 
 
     public function wantItem(Request $request)
@@ -59,6 +112,7 @@ class WelcomeController extends Controller
         $itemName = $request->input('itemName');
         $itemPrice = $request->input('itemPrice');
         $itemUrl = $request->input('itemUrl');
+        $genreName = $request->input('genreName');
 
         // 重複のチェック
         $existingItem = Want::where('user_id', $user_id)->where('itemCode', $itemCode)->first();
@@ -76,6 +130,7 @@ class WelcomeController extends Controller
                 'itemPrice' => $itemPrice,
                 'itemUrl' => $itemUrl,
                 'itemCode' => $itemCode,
+                'genreName' => $genreName,
                 'want_status' => true, // もしくは 1
             ]);
         }
@@ -88,6 +143,11 @@ class WelcomeController extends Controller
     {
         $user_id = auth()->user()->id;
         $itemCode = $request->input('itemCode');
+        $imageUrl = $request->input('imageUrl');
+        $itemName = $request->input('itemName');
+        $itemPrice = $request->input('itemPrice');
+        $itemUrl = $request->input('itemUrl');
+        $genreName = $request->input('genreName');
 
         // 重複のチェック
         $existingItem = Have::where('user_id', $user_id)->where('itemCode', $itemCode)->first();
@@ -96,10 +156,6 @@ class WelcomeController extends Controller
             $existingItem->have_status = !$existingItem->have_status;
             $existingItem->save();
         } else {
-            $imageUrl = $request->input('imageUrl');
-            $itemName = $request->input('itemName');
-            $itemPrice = $request->input('itemPrice');
-            $itemUrl = $request->input('itemUrl');
 
             Have::create([
                 'user_id' => $user_id,
@@ -108,12 +164,39 @@ class WelcomeController extends Controller
                 'itemPrice' => $itemPrice,
                 'itemUrl' => $itemUrl,
                 'itemCode' => $itemCode,
+                'genreName' => $genreName,
                 'have_status' => true, // もしくは 1
             ]);
         }
 
         return redirect()->back()->with('success', 'アイテムを追加しました');
     }
+
+    public function unlikeItem(Request $request)
+    {
+        $user_id = auth()->user()->id;
+        $itemCode = $request->input('itemCode');
+        $imageUrl = $request->input('imageUrl');
+        $itemName = $request->input('itemName');
+        $itemPrice = $request->input('itemPrice');
+        $itemUrl = $request->input('itemUrl');
+        $genreName = $request->input('genreName');
+
+        Unlike::create([
+            'user_id' => $user_id,
+            'imageUrl' => $imageUrl,
+            'itemName' => $itemName,
+            'itemPrice' => $itemPrice,
+            'itemUrl' => $itemUrl,
+            'itemCode' => $itemCode,
+            'genreName' => $genreName,
+            'unlike_status' => true, // もしくは 1
+        ]);
+
+        return redirect()->back()->with('success', 'アイテムを追加しました');
+    }
+
+
 
     public function updateWantStatus()
     {
@@ -215,5 +298,25 @@ class WelcomeController extends Controller
             ->get();
 
         return view('home', compact('items'));
+    }
+
+    public function showItemsByGenre(Request $request)
+    {
+        // ジャンルの一覧を取得
+        $genres = Genre::all();
+
+        // 選択されたジャンルIDを取得
+        $selectedGenreId = $request->input('genre');
+
+        // 選択されたジャンルがある場合はそのジャンルに紐づく商品リストを取得
+        if ($selectedGenreId) {
+            $genre = Genre::findOrFail($selectedGenreId);
+            $itemsByGenre = $genre->items;
+        } else {
+            $itemsByGenre = []; // デフォルトは空の商品リスト
+        }
+
+        // ビューに変数を渡して表示
+        return view('home', compact('genres', 'selectedGenreId', 'itemsByGenre'));
     }
 }

@@ -63,36 +63,67 @@
     justify-content: space-between;
   }
   .wantbutton,
-.havebutton {
-  display: inline-block;
-  padding: 5px 10px;
-  margin-right: 5px; /* ボタン間の横の余白を追加 */
-  border: none;
-  border-radius: 8px;
-  background-color: blue;
-  color: white;
-  font-weight: bold;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+  .havebutton {
+    display: inline-block;
+    padding: 5px 10px;
+    margin-right: 5px; /* ボタン間の横の余白を追加 */
+    border: none;
+    border-radius: 8px;
+    background-color: blue;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
 
-.wantbutton.custom-style-want,
-.havebutton.custom-style-have {
-  display: inline-block;
-  padding: 5px 10px;
-  margin-right: 5px; /* ボタン間の横の余白を追加 */
-  border: none;
-  border-radius: 8px;
-  background-color: green;
-  color: white;
-  font-weight: bold;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+  .wantbutton.custom-style-want,
+  .havebutton.custom-style-have {
+    display: inline-block;
+    padding: 5px 10px;
+    margin-right: 5px; /* ボタン間の横の余白を追加 */
+    border: none;
+    border-radius: 8px;
+    background-color: green;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .unlikebutton {
+    display: inline-block;
+    padding: 5px 10px;
+    margin-right: 5px; /* ボタン間の横の余白を追加 */
+    border: none;
+    border-radius: 8px;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .unlikebutton custom-style-have{
+    display: inline-block;
+    padding: 5px 10px;
+    margin-right: 5px; /* ボタン間の横の余白を追加 */
+    border: none;
+    border-radius: 8px;
+    background-color: rgb(180, 0, 0);
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
 
 
 .wantbutton:last-child,
@@ -118,4 +149,17 @@
 .nav-ranking a {
     text-decoration: none; /* 下線を削除 */
     color: black; /* リンクの色を黒に変更 */
+}
+
+.ranking-container {
+  display: flex; /* フレキシブルボックスを使用 */
+}
+
+.ranking-want, .ranking-have {
+  flex: 1; /* 要素の幅を均等に分配 */
+  margin-right: 10px; /* 要素間の余白を調整（必要に応じて調整） */
+}
+
+.custom-h1, .custom-p {
+  padding-left: 25px;
 }

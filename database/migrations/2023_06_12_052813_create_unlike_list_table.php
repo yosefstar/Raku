@@ -4,25 +4,23 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class  extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('have_list', function (Blueprint $table) {
+        Schema::create('unlike_list', function (Blueprint $table) {
             $table->increments('id');
             $table->string('imageUrl')->nullable();
             $table->string('itemName')->nullable();
             $table->integer('itemPrice')->nullable();
             $table->string('itemUrl')->nullable();
-            $table->string('itemCode')->unique();
+            $table->string('itemCode')->nullable();
             $table->unsignedBigInteger('user_id'); // 追加されたカラム
             $table->timestamps();
-            $table->string('have_status')->nullable();
+            $table->string('unlike_status')->nullable();
             $table->string('genreName')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); // 外部キー制約
@@ -32,11 +30,9 @@ class  extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('have_list');
+        Schema::dropIfExists('unlike_list');
     }
-}
+};
