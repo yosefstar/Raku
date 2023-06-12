@@ -210,6 +210,9 @@
             const itemUrl = $(this).data('itemUrl');
             const genreName = $(this).data('genreName');
 
+            // const itemBoxMain = $(this).closest('.item-box').find('.item-box-main'); // 対応するitem-box-mainを取得
+            const itemBox = $(this).closest('.item-box');
+
             if ($(this).text() == unlike) {
                 $(this).text(unliked);
                 unlikeStatus = 0;
@@ -237,11 +240,12 @@
                         genreName: genreName,
                     }),
                 })
-                .then((response) => response.json())
                 .then((data) => {
                     // レスポンスを処理
                     console.log(data);
+                    itemBox.remove(); // item-box-mainを削除
                 })
+                .then((response) => response.json())
                 .catch((error) => {
                     console.error("エラー:", error);
                 });
