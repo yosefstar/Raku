@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>ポート</title>
+    <title>ポートフォリオ</title>
     <style>
         h2 {
             font-size: smaller;
@@ -30,7 +30,6 @@
 </head>
 
 <body>
-    <h1 class="custom-h1">ランキング</h1>
     <div class="ranking-container">
         <div class="ranking-want">
             <h1>楽天商品の投票アプリ</h1>
