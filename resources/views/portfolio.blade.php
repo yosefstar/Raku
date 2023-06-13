@@ -34,13 +34,13 @@
     <div class="ranking-container">
         <div class="ranking-want">
             <h1>楽天商品の投票アプリ</h1>
-            <a href="http://rakuranking.conohawing.com/">http://rakuranking.conohawing.com/</a>
+            <a href="http://rakuranking.conohawing.com/" target="_blank">http://rakuranking.conohawing.com/</a>
             <h3>ログイン情報</h3>
             <p>メール: test@gmail.com</p>
             <p>パスワード: testuser1212</p>
 
             <h3>仕様解説動画</h3>
-            <a href="https://youtu.be/LS9VgcS9JKc">https://youtu.be/LS9VgcS9JKc</a>
+            <a href="https://youtu.be/LS9VgcS9JKc" target="_blank">https://youtu.be/LS9VgcS9JKc</a>
             <h3>イメージ画像</h3>
             <img src="{{ asset('images/main1.png') }}" width="400" height="300">
 
@@ -94,13 +94,13 @@
 
         <div class="ranking-have">
             <h1>フリマ在庫判定スクレイピングアプリ</h1>
-            <a href="http://49.212.209.113:5001/">http://49.212.209.113:5001/</a>
+            <a href="http://49.212.209.113:5001/" target="_blank">http://49.212.209.113:5001/</a>
             <h3>ログイン情報</h3>
             <p>ログインなし</p>
 
 
             <h3>仕様解説動画</h3>
-            <a href="https://youtu.be/522TOH7Fy1U">https://youtu.be/522TOH7Fy1U</a>
+            <a href="https://youtu.be/522TOH7Fy1U" target="_blank">https://youtu.be/522TOH7Fy1U</a>
             <h3>イメージ画像</h3>
             <img src="{{ asset('images/main2.png') }}" width="430" height="300">
 
