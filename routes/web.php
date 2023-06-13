@@ -61,3 +61,5 @@ Route::post('/update-want-status', [HomeController::class, 'updateWantStatus'])-
 Route::post('/check_duplicate_and_update_status', [HomeController::class, 'checkDuplicateAndUpdateStatus']);
 
 Route::get('/show-items-by-genre', [HomeController::class, 'showItemsByGenre'])->name('showItemsByGenre');
+
+Route::get('/portfolio', [PortfolioController::class, 'show']);

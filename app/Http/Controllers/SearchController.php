@@ -22,7 +22,7 @@ class SearchController extends Controller
         ]);
         $user_id = auth()->user()->id;
         $items = Item::all();
-        $myItemLists = Item::where('user_id', $user_id)->where('want_status', 1)->get();
+        $myItemLists = Item::where('want_status', 1)->get();
         $itemLists = [];
         foreach ($myItemLists as $myItemList) {
             array_push($itemLists, $myItemList["itemCode"]);
